@@ -11,36 +11,34 @@ dependencies:
     sdk: flutter
 
   # UI & 아이콘
-  cupertino_icons: ^1.0.6
-  flutter_markdown: ^0.6.18
+  cupertino_icons: ^1.0.2
 
   # Google API
-  google_sign_in: ^6.2.1
-  googleapis: ^13.1.0
-  googleapis_auth: ^1.6.0
-  http: ^1.2.0
+  google_sign_in: ^6.1.0
+  googleapis: ^11.0.0
+  googleapis_auth: ^1.4.0
+  http: ^0.13.5
 
   # 이미지 처리
-  image_picker: ^1.0.7
-  image: ^4.1.7
+  image_picker: ^1.0.0
 
   # 상태 관리
-  provider: ^6.1.1
+  provider: ^6.0.0
 
   # 로컬 저장소
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.0.0
 
   # 파일 처리
-  path_provider: ^2.1.2
-  file_picker: ^6.1.1
+  path_provider: ^2.0.0
+  file_picker: ^5.0.0
 
-  # HTML 에디터
-  html_editor_enhanced: ^2.5.1
+  # HTML 에디터 (간단한 대체)
+  flutter_quill: ^7.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true

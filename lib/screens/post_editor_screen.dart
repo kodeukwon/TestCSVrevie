@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../services/blogger_service.dart';
-import 'package:html_editor_enhanced/html_editor.dart';
 
 class PostEditorScreen extends StatefulWidget {
   final BloggerService bloggerService;
@@ -22,8 +21,8 @@ class PostEditorScreen extends StatefulWidget {
 
 class _PostEditorScreenState extends State<PostEditorScreen> {
   final _titleController = TextEditingController();
+  final _contentController = TextEditingController();
   final _labelController = TextEditingController();
-  final HtmlEditorController _htmlController = HtmlEditorController();
   final ImagePicker _imagePicker = ImagePicker();
 
   final List<XFile> _selectedImages = [];
@@ -33,6 +32,7 @@ class _PostEditorScreenState extends State<PostEditorScreen> {
   @override
   void dispose() {
     _titleController.dispose();
+    _contentController.dispose();
     _labelController.dispose();
     super.dispose();
   }
@@ -96,8 +96,8 @@ class _PostEditorScreenState extends State<PostEditorScreen> {
     setState(() => _isPublishing = true);
 
     try {
-      // HTML 에디터에서 내용 가져오기
-      String content = await _htmlController.getText();
+      // 에디터에서 내용 가져오기
+      String content = _contentController.text;
 
       // 이미지를 본문에 삽입 (Base64 또는 URL 방식)
       // 실제로는 이미지를 먼저 업로드하고 URL을 받아야 함
@@ -198,40 +198,16 @@ class _PostEditorScreenState extends State<PostEditorScreen> {
                   _buildImageSection(),
                   const SizedBox(height: 16),
 
-                  // HTML 에디터
-                  Container(
-                    height: 400,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(4),
+                  // 본문 에디터
+                  TextField(
+                    controller: _contentController,
+                    decoration: const InputDecoration(
+                      hintText: '내용을 입력하세요...',
+                      border: OutlineInputBorder(),
+                      filled: true,
                     ),
-                    child: HtmlEditor(
-                      controller: _htmlController,
-                      htmlEditorOptions: const HtmlEditorOptions(
-                        hint: '내용을 입력하세요...',
-                        shouldEnsureVisible: true,
-                      ),
-                      htmlToolbarOptions: HtmlToolbarOptions(
-                        toolbarPosition: ToolbarPosition.aboveEditor,
-                        toolbarType: ToolbarType.nativeScrollable,
-                        defaultToolbarButtons: [
-                          StyleButtons(),
-                          FontSettingButtons(),
-                          FontButtons(),
-                          ColorButtons(),
-                          ListButtons(),
-                          ParagraphButtons(),
-                          InsertButtons(
-                            otherFileFalse: false,
-                            videoFalse: false,
-                            audioFalse: false,
-                          ),
-                        ],
-                      ),
-                      otherOptions: const OtherOptions(
-                        height: 350,
-                      ),
-                    ),
+                    maxLines: 15,
+                    keyboardType: TextInputType.multiline,
                   ),
                   const SizedBox(height: 16),
 
