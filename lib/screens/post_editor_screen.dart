@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'dart:io' if (dart.library.html) 'dart:html' as io;
 import '../services/blogger_service.dart';
 
 class PostEditorScreen extends StatefulWidget {
@@ -261,9 +261,12 @@ class _PostEditorScreenState extends State<PostEditorScreen> {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: Image.file(
-                          File(_selectedImages[index].path),
+                        child: Image.network(
+                          _selectedImages[index].path,
                           fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(Icons.image, size: 50);
+                          },
                         ),
                       ),
                     ),
