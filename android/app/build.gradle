@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.blogger_app"
-    compileSdk 34
+    compileSdk 33
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -43,9 +43,10 @@ android {
     defaultConfig {
         applicationId "com.example.blogger_app"
         minSdk 21
-        targetSdk 34
+        targetSdk 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
