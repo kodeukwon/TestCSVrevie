@@ -2,6 +2,14 @@
 
 Google Blogger와 연동하여 모바일과 데스크톱에서 블로그 포스트를 작성하고 게시할 수 있는 크로스 플랫폼 앱입니다.
 
+## 📥 빠른 다운로드
+
+**Android APK 다운로드:**
+- [GitHub Actions에서 최신 빌드 다운로드](https://github.com/kodeukwon/TestCSVrevie/actions)
+- [GitHub Releases](https://github.com/kodeukwon/TestCSVrevie/releases)
+
+자세한 설치 방법은 [DOWNLOAD.md](DOWNLOAD.md)를 참고하세요.
+
 ## ✨ 주요 기능
 
 - ✅ **Google 계정 로그인** - OAuth2 인증
