@@ -25,14 +25,18 @@ jobs:
       - name: 🐦 Flutter 설치
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          flutter-version: '3.19.6'
           channel: 'stable'
+          cache: true
+
+      - name: 🔧 Flutter Doctor
+        run: flutter doctor -v
 
       - name: 📦 의존성 설치
         run: flutter pub get
 
       - name: 🔨 APK 빌드
-        run: flutter build apk --release
+        run: flutter build apk --release --verbose
 
       - name: 📱 APK 파일명 변경
         run: |
