@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#c0392b" />
+  <title>나만의 레시피</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <button id="back-btn" class="icon-btn hidden" aria-label="뒤로">←</button>
+    <h1 id="header-title">나만의 레시피</h1>
+    <button id="add-btn" class="icon-btn" aria-label="레시피 추가">＋</button>
+  </header>
+
+  <main id="app">
+    <!-- List View -->
+    <section id="list-view" class="view">
+      <div class="search-bar">
+        <input type="search" id="search-input" placeholder="레시피 이름, 재료로 검색..." />
+      </div>
+
+      <div class="filter-bar">
+        <select id="category-filter">
+          <option value="">전체 카테고리</option>
+        </select>
+        <select id="rating-filter">
+          <option value="">전체 별점</option>
+          <option value="5">⭐⭐⭐⭐⭐</option>
+          <option value="4">⭐⭐⭐⭐ 이상</option>
+          <option value="3">⭐⭐⭐ 이상</option>
+          <option value="2">⭐⭐ 이상</option>
+          <option value="1">⭐ 이상</option>
+        </select>
+        <select id="sort-select">
+          <option value="updated">최근 수정순</option>
+          <option value="rating">별점 높은순</option>
+          <option value="name">이름순</option>
+        </select>
+      </div>
+
+      <div id="recipe-list" class="recipe-list"></div>
+
+      <div id="empty-state" class="empty-state hidden">
+        <p>아직 등록된 레시피가 없어요.</p>
+        <button class="btn-primary" id="empty-add-btn">＋ 첫 레시피 추가하기</button>
+      </div>
+    </section>
+
+    <!-- Detail View -->
+    <section id="detail-view" class="view hidden">
+      <article class="recipe-detail">
+        <div class="detail-header">
+          <h2 id="detail-name"></h2>
+          <div class="detail-meta">
+            <span id="detail-rating" class="rating"></span>
+            <span id="detail-category" class="tag"></span>
+          </div>
+          <p id="detail-source" class="source"></p>
+        </div>
+
+        <div class="serving-control">
+          <label>인분 조절:</label>
+          <div class="serving-stepper">
+            <button id="serving-minus" type="button" aria-label="감소">−</button>
+            <input type="number" id="serving-input" min="0.5" step="0.5" value="1" />
+            <button id="serving-plus" type="button" aria-label="증가">＋</button>
+          </div>
+          <span class="serving-base">(기본 <span id="serving-base">1</span>인분)</span>
+        </div>
+
+        <h3>재료</h3>
+        <ul id="detail-ingredients" class="ingredient-list"></ul>
+
+        <div id="sauce-section" class="hidden">
+          <h3>양념장</h3>
+          <ul id="detail-sauce" class="ingredient-list"></ul>
+        </div>
+
+        <h3>만드는법</h3>
+        <ol id="detail-steps" class="step-list"></ol>
+
+        <div id="detail-notes-wrap" class="hidden">
+          <h3>메모</h3>
+          <p id="detail-notes" class="notes"></p>
+        </div>
+
+        <div class="detail-actions">
+          <button id="edit-btn" class="btn-secondary">수정</button>
+          <button id="delete-btn" class="btn-danger">삭제</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- Form View -->
+    <section id="form-view" class="view hidden">
+      <form id="recipe-form" class="recipe-form" autocomplete="off">
+        <input type="hidden" id="form-id" />
+
+        <label>레시피 이름 *
+          <input type="text" id="form-name" required maxlength="80" />
+        </label>
+
+        <div class="form-row">
+          <label>별점
+            <div id="form-rating" class="rating-input" data-value="0">
+              <span data-star="1">☆</span><span data-star="2">☆</span><span data-star="3">☆</span><span data-star="4">☆</span><span data-star="5">☆</span>
+            </div>
+          </label>
+
+          <label>카테고리
+            <input type="text" id="form-category" list="category-list" placeholder="한식, 양식..." />
+            <datalist id="category-list"></datalist>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>출처
+            <input type="text" id="form-source" placeholder="인스타 @계정 등" />
+          </label>
+          <label>기본 인분
+            <input type="number" id="form-servings" min="0.5" step="0.5" value="1" />
+          </label>
+        </div>
+
+        <fieldset>
+          <legend>재료</legend>
+          <div id="ingredient-rows" class="ingredient-rows"></div>
+          <button type="button" class="btn-secondary btn-small" id="add-ingredient">＋ 재료 추가</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>양념장 (선택)</legend>
+          <div id="sauce-rows" class="ingredient-rows"></div>
+          <button type="button" class="btn-secondary btn-small" id="add-sauce">＋ 양념 추가</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>만드는법</legend>
+          <div id="step-rows" class="step-rows"></div>
+          <button type="button" class="btn-secondary btn-small" id="add-step">＋ 단계 추가</button>
+        </fieldset>
+
+        <label>메모 (선택)
+          <textarea id="form-notes" rows="3"></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button type="button" id="cancel-btn" class="btn-secondary">취소</button>
+          <button type="submit" class="btn-primary">저장</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <template id="ingredient-row-template">
+    <div class="ingredient-row">
+      <input type="text" class="ing-name" placeholder="재료 (예: 고추장)" required />
+      <input type="text" class="ing-amount" placeholder="양 (예: 1, 1/2, 적당히)" />
+      <input type="text" class="ing-unit" placeholder="단위 (예: T, 개)" />
+      <input type="text" class="ing-note" placeholder="메모 (선택)" />
+      <button type="button" class="row-remove" aria-label="삭제">×</button>
+    </div>
+  </template>
+
+  <template id="step-row-template">
+    <div class="step-row">
+      <textarea class="step-text" rows="2" placeholder="조리 단계 설명" required></textarea>
+      <button type="button" class="row-remove" aria-label="삭제">×</button>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
